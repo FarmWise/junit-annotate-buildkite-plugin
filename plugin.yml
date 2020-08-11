@@ -18,6 +18,8 @@ configuration:
       type: boolean
     context:
       type: string
+    local-artifacts:
+      type: boolean
   required:
     - artifacts
   additionalProperties: false

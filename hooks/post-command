@@ -24,9 +24,15 @@ function check_size {
 
 trap cleanup EXIT
 
-buildkite-agent artifact download \
-  "${BUILDKITE_PLUGIN_JUNIT_ANNOTATE_ARTIFACTS}" \
-  "$artifacts_dir"
+if [[ "${BUILDKITE_PLUGIN_JUNIT_ANNOTATE_LOCAL_ARTIFACTS:-false}" =~ ^(true|on|1)$ ]] ; then
+  set -x
+  find "${BUILDKITE_PLUGIN_JUNIT_ANNOTATE_ARTIFACTS}" | xargs cp --parents -t "$artifacts_dir"
+  set +x
+else
+  buildkite-agent artifact download \
+    "${BUILDKITE_PLUGIN_JUNIT_ANNOTATE_ARTIFACTS}" \
+    "$artifacts_dir"
+fi
 
 echo "--- :junit: Processing the junits"
 
