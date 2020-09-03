@@ -81,11 +81,11 @@ end
 
 STDERR.puts "--- ✍️ Preparing annotation"
 
-if label
+if label.to_s != ''
   print "[" + label + "] "
 end
 
-if print_test_count
+if print_test_count.to_s == 'true'
   print "#{testcases} testcases"
 end
 
