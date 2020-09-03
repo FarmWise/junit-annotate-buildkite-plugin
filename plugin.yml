@@ -18,6 +18,10 @@ configuration:
       type: boolean
     context:
       type: string
+    label:
+      type: string
+    print-test-count:
+      type: boolean
   required:
     - artifacts
   additionalProperties: false

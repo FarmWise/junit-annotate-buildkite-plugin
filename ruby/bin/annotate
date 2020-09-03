@@ -17,6 +17,10 @@ job_pattern = '-(.*).xml' if !job_pattern || job_pattern.empty?
 failure_format = ENV['BUILDKITE_PLUGIN_JUNIT_ANNOTATE_FAILURE_FORMAT']
 failure_format = 'classname' if !failure_format || failure_format.empty?
 
+label = ENV['BUILDKITE_PLUGIN_JUNIT_ANNOTATE_LABEL']
+
+print_test_count = ENV['BUILDKITE_PLUGIN_JUNIT_ANNOTATE_PRINT_TEST_COUNT']
+
 class Failure < Struct.new(:name, :failed_test, :body, :job, :type, :message)
 end
 
@@ -76,6 +80,20 @@ else
 end
 
 STDERR.puts "--- ✍️ Preparing annotation"
+
+if label
+  print "[" + label + "] "
+end
+
+if print_test_count
+  print "#{testcases} testcases"
+end
+
+print "\n\n"
+
+if failures.empty?
+  exit 0
+end
 
 failures_count = failures.select {|f| f.type == :failure }.length
 errors_count = failures.select {|f| f.type == :error }.length
